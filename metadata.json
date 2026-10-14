@@ -1,0 +1,6 @@
+{
+  "name": "Controlli sistematici centrale di Quincinetto 2",
+  "description": "Applicazione per la registrazione dei controlli quotidiani dei due gruppi della centrale idroelettrica di Quincinetto 2 e aggiornamento del file Excel cumulativo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
