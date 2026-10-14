@@ -8,7 +8,8 @@ export type CategoryId =
   | 'colonnetta_pale'
   | 'sod'
   | 'pompa_servizio'
-  | 'perdite_servomotori';
+  | 'perdite_servomotori'
+  | 'tempo_pompa_drenaggio';
 
 export interface CategoryInfo {
   id: CategoryId;
@@ -25,6 +26,7 @@ export const CATEGORIES: CategoryInfo[] = [
   { id: 'sod', label: '6. SOD', shortDesc: 'Olio, livelli e pressione' },
   { id: 'pompa_servizio', label: '7. Pompa in servizio', shortDesc: 'Pompa 1/2 e perdita olio' },
   { id: 'perdite_servomotori', label: '8. Perdite Servomotori', shortDesc: 'Verifica presenza perdite' },
+  { id: 'tempo_pompa_drenaggio', label: "9. Tempo pompa 1 drenaggio tenuta d'albero", shortDesc: 'Tempo funzionamento drenaggio' },
 ];
 
 export interface RilevazioneDati {
@@ -64,6 +66,9 @@ export interface RilevazioneDati {
 
   // Perdite Servomotori
   perdite_servomotori?: 'Sì' | 'No' | null;
+
+  // Tempo pompa 1 drenaggio tenuta d'albero
+  tempo_pompa_1_drenaggio_tenuta_albero?: number | string | null;
 
   // Note opzionali
   note?: string;

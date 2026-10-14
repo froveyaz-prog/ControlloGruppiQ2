@@ -762,6 +762,35 @@ export const DataEntryForm: React.FC<DataEntryFormProps> = ({
               </div>
             </div>
           )}
+
+          {/* Categoria 9: Tempo pompa 1 drenaggio tenuta d'albero */}
+          {selectedCategory === 'tempo_pompa_drenaggio' && (
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-bold text-white mb-1">
+                  Tempo Pompa 1 Drenaggio Tenuta d'Albero ({selectedGruppo})
+                </h3>
+                <p className="text-xs text-slate-400 mb-3">
+                  Registra il tempo di funzionamento o ciclo della pompa 1 di drenaggio tenuta d'albero per il {selectedGruppo}.
+                </p>
+
+                <div>
+                  <label className="block text-xs font-medium text-slate-300 mb-1">
+                    Tempo rilevato (es. secondi, minuti o contaore):
+                  </label>
+                  <div className="relative max-w-sm">
+                    <input
+                      type="text"
+                      placeholder="Es. 30 s oppure 2.5 min"
+                      value={bozza.tempo_pompa_1_drenaggio_tenuta_albero ?? ''}
+                      onChange={(e) => updateBozzaField('tempo_pompa_1_drenaggio_tenuta_albero', e.target.value)}
+                      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -852,10 +881,18 @@ export const DataEntryForm: React.FC<DataEntryFormProps> = ({
               </div>
             )}
             {bozza.perdite_servomotori && (
-              <div className="flex justify-between">
+              <div className="flex justify-between border-b border-slate-900 pb-1">
                 <span className="text-slate-400">Perdite Servomotori:</span>
                 <span className={`font-semibold ${bozza.perdite_servomotori === 'Sì' ? 'text-rose-400' : 'text-emerald-400'}`}>
                   {bozza.perdite_servomotori}
+                </span>
+              </div>
+            )}
+            {bozza.tempo_pompa_1_drenaggio_tenuta_albero !== undefined && bozza.tempo_pompa_1_drenaggio_tenuta_albero !== null && bozza.tempo_pompa_1_drenaggio_tenuta_albero !== '' && (
+              <div className="flex justify-between">
+                <span className="text-slate-400">Tempo Pompa 1 Drenaggio:</span>
+                <span className="font-semibold text-sky-300 font-mono">
+                  {bozza.tempo_pompa_1_drenaggio_tenuta_albero}
                 </span>
               </div>
             )}

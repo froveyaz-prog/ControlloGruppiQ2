@@ -30,6 +30,7 @@ export const EXCEL_COLUMNS = [
   'Pompa in Servizio',
   'Perdita Olio Pompa',
   'Perdite Servomotori',
+  "Tempo Pompa 1 Drenaggio Tenuta d'Albero",
   'Note',
 ];
 
@@ -53,6 +54,11 @@ const HEADER_ALIASES: Record<string, string> = {
   'perdita pompa': 'Perdita Olio Pompa',
   'perdite servomotore': 'Perdite Servomotori',
   'perdite servomotori': 'Perdite Servomotori',
+  "tempo pompa 1 drenaggio tenuta d'albero": "Tempo Pompa 1 Drenaggio Tenuta d'Albero",
+  'tempo pompa 1 drenaggio tenuta albero': "Tempo Pompa 1 Drenaggio Tenuta d'Albero",
+  'tempo pompa drenaggio tenuta albero': "Tempo Pompa 1 Drenaggio Tenuta d'Albero",
+  'tempo pompa 1 drenaggio': "Tempo Pompa 1 Drenaggio Tenuta d'Albero",
+  'pompa 1 drenaggio tenuta albero': "Tempo Pompa 1 Drenaggio Tenuta d'Albero",
 };
 
 export function normalizeHeader(h: string): string {
@@ -95,6 +101,7 @@ export function recordToExcelRow(r: RilevazioneRecord): Record<string, any> {
     'Pompa in Servizio': d.pompa_in_servizio ?? '',
     'Perdita Olio Pompa': d.pompa_perdita_olio ?? '',
     'Perdite Servomotori': d.perdite_servomotori ?? '',
+    "Tempo Pompa 1 Drenaggio Tenuta d'Albero": d.tempo_pompa_1_drenaggio_tenuta_albero ?? '',
     'Note': d.note ?? '',
   };
 }

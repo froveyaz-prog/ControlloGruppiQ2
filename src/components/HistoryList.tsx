@@ -347,6 +347,16 @@ export const HistoryList: React.FC<HistoryListProps> = ({
                         <div>Pressione Accum.: <span className="text-white font-mono">{d.sod_pressione_accumulatore_bar ?? '-'} bar</span></div>
                       </div>
                     </div>
+
+                    {/* Pompa in Servizio & Drenaggio Tenuta d'Albero */}
+                    <div className="border-t border-slate-900 pt-2">
+                      <h5 className="font-bold text-sky-400 mb-1">Pompa in Servizio & Drenaggio Tenuta d'Albero</h5>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div>Pompa: <span className="text-white font-semibold">{d.pompa_in_servizio || '-'}</span></div>
+                        <div>Perdita pompa: <span className="text-white font-semibold">{d.pompa_perdita_olio || '-'}</span></div>
+                        <div>Tempo pompa 1 drenaggio: <span className="text-sky-300 font-mono font-bold">{d.tempo_pompa_1_drenaggio_tenuta_albero || '-'}</span></div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
