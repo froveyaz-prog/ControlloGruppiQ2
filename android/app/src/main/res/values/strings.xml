@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Quincinetto 2</string>
+    <string name="title_activity_main">Quincinetto 2</string>
+    <string name="package_name">it.centrale.quincinetto2</string>
+    <string name="custom_url_scheme">it.centrale.quincinetto2</string>
+</resources>

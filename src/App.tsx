@@ -42,6 +42,32 @@ export default function App() {
     });
   }, []);
 
+  // Gestione installazione PWA (WebAPK / Schermata Home su Android)
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallBanner, setShowInstallBanner] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleBeforeInstall = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBanner(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+  }, []);
+
+  const handleInstallApp = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      if (choice && choice.outcome === 'accepted') {
+        setShowInstallBanner(false);
+      }
+      setDeferredPrompt(null);
+    }
+  };
+
   // Callback quando una rilevazione viene salvata
   const handleRecordSaved = (updatedRecord: RilevazioneRecord, isUpdate: boolean) => {
     setRecords(loadRilevazioni());
@@ -75,6 +101,38 @@ export default function App() {
         hasExcelLink={!!excelFileName}
         excelFileName={excelFileName}
       />
+
+      {/* Banner Installazione PWA (WebAPK / Schermata Home) */}
+      {showInstallBanner && (
+        <aside aria-label="Installazione app" className="bg-gradient-to-r from-sky-950 via-slate-900 to-indigo-950 border-b border-sky-700/60 px-4 py-2.5 shadow-md">
+          <div className="max-w-4xl mx-auto flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <img src="./icon-192.png" alt="Quincinetto 2" className="w-8 h-8 rounded-lg shadow-sm shrink-0 border border-sky-500/30" />
+              <div>
+                <p className="text-xs font-bold text-white">Installa Quincinetto 2 sul tuo telefono</p>
+                <p className="text-[11px] text-sky-300">Usa l'app a schermo intero offline e con icona dedicata</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={handleInstallApp}
+                className="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs px-3.5 py-1.5 rounded-lg shadow-sm transition-all active:scale-95 cursor-pointer"
+              >
+                Installa App
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowInstallBanner(false)}
+                className="text-xs text-slate-400 hover:text-white px-1.5 py-1"
+                title="Chiudi"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        </aside>
+      )}
 
       {/* Contenuto Principale con Larghezza Ottimizzata Mobile & Desktop */}
       <main className="flex-1 max-w-4xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-6">
