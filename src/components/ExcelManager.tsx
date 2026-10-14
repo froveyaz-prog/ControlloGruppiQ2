@@ -250,7 +250,7 @@ export const ExcelManager: React.FC<ExcelManagerProps> = ({
       const allRecords = loadRilevazioni();
       const exportData = {
         app: 'Controlli sistematici centrale di Quincinetto 2',
-        versione: 39,
+        versione: '1.0.0',
         exportDate: new Date().toISOString(),
         totalRecords: allRecords.length,
         records: allRecords,
