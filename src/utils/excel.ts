@@ -30,7 +30,17 @@ export const EXCEL_COLUMNS = [
   'Pompa in Servizio',
   'Perdita Olio Pompa',
   'Perdite Servomotori',
-  "Tempo Pompa 1 Drenaggio Tenuta d'Albero",
+  'Pompa 1 AC Tempo Arresto (s)',
+  'Pompa 1 AC Tempo Funzionamento (s)',
+  'Pompa 2 AC Tempo Arresto (s)',
+  'Pompa 2 AC Tempo Funzionamento (s)',
+  'Pompa 3 DC Tempo Arresto (s)',
+  'Pompa 3 DC Tempo Funzionamento (s)',
+  'Pressione Irrorazione Tenuta (bar)',
+  'Portata Irrorazione Tenuta (l/min)',
+  'Pressione Monte Servovalvole (bar)',
+  'Pressione Valle Servovalvole (bar)',
+  'Delta P Servovalvole (bar)',
   'Note',
 ];
 
@@ -54,11 +64,45 @@ const HEADER_ALIASES: Record<string, string> = {
   'perdita pompa': 'Perdita Olio Pompa',
   'perdite servomotore': 'Perdite Servomotori',
   'perdite servomotori': 'Perdite Servomotori',
-  "tempo pompa 1 drenaggio tenuta d'albero": "Tempo Pompa 1 Drenaggio Tenuta d'Albero",
-  'tempo pompa 1 drenaggio tenuta albero': "Tempo Pompa 1 Drenaggio Tenuta d'Albero",
-  'tempo pompa drenaggio tenuta albero': "Tempo Pompa 1 Drenaggio Tenuta d'Albero",
-  'tempo pompa 1 drenaggio': "Tempo Pompa 1 Drenaggio Tenuta d'Albero",
-  'pompa 1 drenaggio tenuta albero': "Tempo Pompa 1 Drenaggio Tenuta d'Albero",
+  // Retrocompatibilità vecchia colonna singola drenaggio
+  "tempo pompa 1 drenaggio tenuta d'albero": 'Pompa 1 AC Tempo Funzionamento (s)',
+  'tempo pompa 1 drenaggio tenuta albero': 'Pompa 1 AC Tempo Funzionamento (s)',
+  'tempo pompa drenaggio tenuta albero': 'Pompa 1 AC Tempo Funzionamento (s)',
+  'tempo pompa 1 drenaggio': 'Pompa 1 AC Tempo Funzionamento (s)',
+  'pompa 1 drenaggio tenuta albero': 'Pompa 1 AC Tempo Funzionamento (s)',
+  // Sinonimi 3 pompe drenaggio
+  'pompa 1 ac arresto': 'Pompa 1 AC Tempo Arresto (s)',
+  'pompa 1 ac funzionamento': 'Pompa 1 AC Tempo Funzionamento (s)',
+  'pompa 2 ac arresto': 'Pompa 2 AC Tempo Arresto (s)',
+  'pompa 2 ac funzionamento': 'Pompa 2 AC Tempo Funzionamento (s)',
+  'pompa 3 dc arresto': 'Pompa 3 DC Tempo Arresto (s)',
+  'pompa 3 dc funzionamento': 'Pompa 3 DC Tempo Funzionamento (s)',
+  // Sinonimi irrorazione tenuta
+  'pressione irrorazione tenuta': 'Pressione Irrorazione Tenuta (bar)',
+  'pressione irrorazione': 'Pressione Irrorazione Tenuta (bar)',
+  'pressione irrorazione tenuta (bar)': 'Pressione Irrorazione Tenuta (bar)',
+  'pressione irrorazione (bar)': 'Pressione Irrorazione Tenuta (bar)',
+  'portata irrorazione tenuta': 'Portata Irrorazione Tenuta (l/min)',
+  'portata irrorazione': 'Portata Irrorazione Tenuta (l/min)',
+  'portata irrorazione tenuta (l/min)': 'Portata Irrorazione Tenuta (l/min)',
+  'portata irrorazione (l/min)': 'Portata Irrorazione Tenuta (l/min)',
+  'portata irrorazione tenuta (l/m)': 'Portata Irrorazione Tenuta (l/min)',
+  // Sinonimi delta pressione servovalvole
+  'pressione monte': 'Pressione Monte Servovalvole (bar)',
+  'pressione di monte': 'Pressione Monte Servovalvole (bar)',
+  'pressione monte servovalvole': 'Pressione Monte Servovalvole (bar)',
+  'pressione monte servovalvole (bar)': 'Pressione Monte Servovalvole (bar)',
+  'pressione monte (bar)': 'Pressione Monte Servovalvole (bar)',
+  'pressione valle': 'Pressione Valle Servovalvole (bar)',
+  'pressione di valle': 'Pressione Valle Servovalvole (bar)',
+  'pressione valle servovalvole': 'Pressione Valle Servovalvole (bar)',
+  'pressione valle servovalvole (bar)': 'Pressione Valle Servovalvole (bar)',
+  'pressione valle (bar)': 'Pressione Valle Servovalvole (bar)',
+  'delta p': 'Delta P Servovalvole (bar)',
+  'delta p servovalvole': 'Delta P Servovalvole (bar)',
+  'delta p servovalvole (bar)': 'Delta P Servovalvole (bar)',
+  'delta pressione': 'Delta P Servovalvole (bar)',
+  'delta pressione servovalvole': 'Delta P Servovalvole (bar)',
 };
 
 export function normalizeHeader(h: string): string {
@@ -101,7 +145,24 @@ export function recordToExcelRow(r: RilevazioneRecord): Record<string, any> {
     'Pompa in Servizio': d.pompa_in_servizio ?? '',
     'Perdita Olio Pompa': d.pompa_perdita_olio ?? '',
     'Perdite Servomotori': d.perdite_servomotori ?? '',
-    "Tempo Pompa 1 Drenaggio Tenuta d'Albero": d.tempo_pompa_1_drenaggio_tenuta_albero ?? '',
+    'Pompa 1 AC Tempo Arresto (s)': d.drenaggio_p1_ac_arresto_s ?? '',
+    'Pompa 1 AC Tempo Funzionamento (s)':
+      d.drenaggio_p1_ac_funzionamento_s ?? d.tempo_pompa_1_drenaggio_tenuta_albero ?? '',
+    'Pompa 2 AC Tempo Arresto (s)': d.drenaggio_p2_ac_arresto_s ?? '',
+    'Pompa 2 AC Tempo Funzionamento (s)': d.drenaggio_p2_ac_funzionamento_s ?? '',
+    'Pompa 3 DC Tempo Arresto (s)': d.drenaggio_p3_dc_arresto_s ?? '',
+    'Pompa 3 DC Tempo Funzionamento (s)': d.drenaggio_p3_dc_funzionamento_s ?? '',
+    'Pressione Irrorazione Tenuta (bar)': d.pressione_irrorazione_tenuta_bar ?? '',
+    'Portata Irrorazione Tenuta (l/min)': d.portata_irrorazione_tenuta_l_min ?? '',
+    'Pressione Monte Servovalvole (bar)': d.delta_p_monte_bar ?? '',
+    'Pressione Valle Servovalvole (bar)': d.delta_p_valle_bar ?? '',
+    'Delta P Servovalvole (bar)':
+      d.delta_p_monte_bar !== null &&
+      d.delta_p_monte_bar !== undefined &&
+      d.delta_p_valle_bar !== null &&
+      d.delta_p_valle_bar !== undefined
+        ? Number((d.delta_p_monte_bar - d.delta_p_valle_bar).toFixed(2))
+        : '',
     'Note': d.note ?? '',
   };
 }
@@ -284,6 +345,193 @@ export async function saveOrUpdateExcel(
       success: false,
       method: 'download',
       message: `Errore: ${err.message || 'Impossibile aggiornare il file Excel'}`,
+    };
+  }
+}
+
+/**
+ * Converte righe lette da un foglio Excel in record per l'app
+ */
+export function excelRowsToRecords(
+  rows: Record<string, any>[],
+  gruppo: Gruppo
+): RilevazioneRecord[] {
+  const records: RilevazioneRecord[] = [];
+
+  for (const rawRow of rows) {
+    const row = parseExcelRow(rawRow);
+    const data = String(row['Data'] || '').trim();
+    if (!data) continue; // ignora righe vuote
+
+    const ora = String(row['Ora'] || '').trim() || '08:00';
+    const operatore = String(row['Operatore'] || '').trim();
+    const id = `imp_${gruppo.replace(/\s+/g, '')}_${data}_${ora}_${Math.random().toString(36).substring(2, 6)}`;
+
+    const numOrNull = (val: any) => {
+      if (val === undefined || val === null || val === '') return null;
+      const parsed = parseFloat(String(val).replace(',', '.'));
+      return isNaN(parsed) ? null : parsed;
+    };
+
+    const strOrNull = (val: any) => {
+      if (val === undefined || val === null || val === '') return null;
+      return String(val).trim();
+    };
+
+    records.push({
+      id,
+      gruppo,
+      data,
+      ora,
+      operatore,
+      timestamp: Date.now(),
+      updatedAt: Date.now(),
+      dati: {
+        potenza_mw: numOrNull(row['Potenza (MW)']),
+        guida_turbina_temp_olio: numOrNull(row['T. Olio Guida Turbina (°C)']),
+        guida_turbina_livello_olio: strOrNull(row['Liv. Olio Guida Turbina']),
+        guida_turbina_temp_pattino_1: numOrNull(row['T. Pattino 1 Guida (°C)']),
+        guida_turbina_temp_pattino_2: numOrNull(row['T. Pattino 2 Guida (°C)']),
+        alternatore_temp_olio: numOrNull(row['T. Olio Alternatore (°C)']),
+        alternatore_livello_olio: strOrNull(row['Liv. Olio Alternatore']),
+        alternatore_temp_pattino_1: numOrNull(row['T. Pattino 1 Alt. (°C)']),
+        alternatore_temp_pattino_2: numOrNull(row['T. Pattino 2 Alt. (°C)']),
+        combinato_temp_olio: numOrNull(row['T. Olio Combinato (°C)']),
+        combinato_livello_olio: strOrNull(row['Liv. Olio Combinato']),
+        combinato_temp_pattino_assiale: numOrNull(row['T. Pattino Assiale (°C)']),
+        combinato_temp_pattino_radiale: numOrNull(row['T. Pattino Radiale (°C)']),
+        colonnetta_pale_temp_olio: numOrNull(row['T. Olio Colonnetta Pale (°C)']),
+        sod_temp_olio: numOrNull(row['T. Olio SOD (°C)']),
+        sod_livello_olio: strOrNull(row['Liv. Olio SOD']),
+        sod_livello_accumulatore: strOrNull(row['Liv. Olio Accumulatore']),
+        pompa_in_servizio:
+          row['Pompa in Servizio'] === 'Pompa 1'
+            ? 'Pompa 1'
+            : row['Pompa in Servizio'] === 'Pompa 2'
+            ? 'Pompa 2'
+            : null,
+        pompa_perdita_olio:
+          row['Perdita Olio Pompa'] === 'Sì'
+            ? 'Sì'
+            : row['Perdita Olio Pompa'] === 'No'
+            ? 'No'
+            : null,
+        perdite_servomotori:
+          row['Perdite Servomotori'] === 'Sì'
+            ? 'Sì'
+            : row['Perdite Servomotori'] === 'No'
+            ? 'No'
+            : null,
+        drenaggio_p1_ac_arresto_s: numOrNull(row['Pompa 1 AC Tempo Arresto (s)']),
+        drenaggio_p1_ac_funzionamento_s:
+          numOrNull(row['Pompa 1 AC Tempo Funzionamento (s)']) ??
+          numOrNull(row["Tempo Pompa 1 Drenaggio Tenuta d'Albero"]),
+        drenaggio_p2_ac_arresto_s: numOrNull(row['Pompa 2 AC Tempo Arresto (s)']),
+        drenaggio_p2_ac_funzionamento_s: numOrNull(row['Pompa 2 AC Tempo Funzionamento (s)']),
+        drenaggio_p3_dc_arresto_s: numOrNull(row['Pompa 3 DC Tempo Arresto (s)']),
+        drenaggio_p3_dc_funzionamento_s: numOrNull(row['Pompa 3 DC Tempo Funzionamento (s)']),
+        tempo_pompa_1_drenaggio_tenuta_albero: strOrNull(row["Tempo Pompa 1 Drenaggio Tenuta d'Albero"]),
+        pressione_irrorazione_tenuta_bar: numOrNull(row['Pressione Irrorazione Tenuta (bar)']),
+        portata_irrorazione_tenuta_l_min: numOrNull(row['Portata Irrorazione Tenuta (l/min)']),
+        delta_p_monte_bar: numOrNull(row['Pressione Monte Servovalvole (bar)']),
+        delta_p_valle_bar: numOrNull(row['Pressione Valle Servovalvole (bar)']),
+        note: strOrNull(row['Note']) || undefined,
+      },
+    });
+  }
+
+  return records;
+}
+
+/**
+ * Legge un file Excel esistente dallo smartphone/PC, fonde tutte le righe storiche con i nuovi record,
+ * e scarica il file Excel aggiornato senza perdere nessuna riga passata.
+ */
+export async function mergeAndDownloadExcelFile(
+  file: File,
+  currentRecords: RilevazioneRecord[]
+): Promise<{
+  success: boolean;
+  message: string;
+  totalRows: number;
+  mergedRecords: RilevazioneRecord[];
+}> {
+  try {
+    const buffer = await file.arrayBuffer();
+    const existingWb = XLSX.read(buffer, { type: 'array' });
+
+    // Estrae i record storici dal file esistente
+    const importedFromExcel: RilevazioneRecord[] = [];
+
+    const sheets: { name: Gruppo; legacyName?: string }[] = [
+      { name: 'Gruppo 1', legacyName: 'Storico' },
+      { name: 'Gruppo 2' },
+    ];
+
+    for (const s of sheets) {
+      let rawRows: Record<string, any>[] = [];
+      if (existingWb.SheetNames.includes(s.name)) {
+        const ws = existingWb.Sheets[s.name];
+        rawRows = XLSX.utils.sheet_to_json<Record<string, any>>(ws, { defval: '' });
+      } else if (s.legacyName && existingWb.SheetNames.includes(s.legacyName)) {
+        const ws = existingWb.Sheets[s.legacyName];
+        rawRows = XLSX.utils.sheet_to_json<Record<string, any>>(ws, { defval: '' });
+      }
+
+      if (rawRows.length > 0) {
+        const parsed = excelRowsToRecords(rawRows, s.name);
+        importedFromExcel.push(...parsed);
+      }
+    }
+
+    // Fonde con i record correnti dell'app
+    // Le nuove rilevazioni aggiornano/completano quelle con stessa data e gruppo
+    const combinedRecords = [...importedFromExcel];
+    for (const cur of currentRecords) {
+      const idx = combinedRecords.findIndex(
+        (r) =>
+          r.gruppo === cur.gruppo &&
+          r.data === cur.data &&
+          (r.operatore || '').trim().toLowerCase() === (cur.operatore || '').trim().toLowerCase()
+      );
+      if (idx >= 0) {
+        // Unisci i dati preservando i valori storici preesistenti
+        combinedRecords[idx] = {
+          ...combinedRecords[idx],
+          ora: cur.ora || combinedRecords[idx].ora,
+          dati: {
+            ...combinedRecords[idx].dati,
+            ...Object.fromEntries(
+              Object.entries(cur.dati || {}).filter(([_, v]) => v !== null && v !== undefined && v !== '')
+            ),
+          },
+        };
+      } else {
+        combinedRecords.push(cur);
+      }
+    }
+
+    // Genera il workbook aggiornato partendo dal file esistente
+    const updatedWb = createWorkbookFromRecords(combinedRecords, existingWb);
+
+    // Scarica direttamente il file aggiornato con nome chiaro
+    const baseName = file.name.replace(/\.xlsx$/i, '');
+    const outFileName = `${baseName}_aggiornato.xlsx`;
+    XLSX.writeFile(updatedWb, outFileName);
+
+    return {
+      success: true,
+      message: `File Excel aggiornato con successo! Conservate tutte le ${importedFromExcel.length} righe storiche precedenti + integrate le nuove rilevazioni (${combinedRecords.length} totali nel file scaricato).`,
+      totalRows: combinedRecords.length,
+      mergedRecords: combinedRecords,
+    };
+  } catch (err: any) {
+    console.error('Errore durante la fusione Excel:', err);
+    return {
+      success: false,
+      message: `Impossibile aggiornare il file Excel: ${err.message || 'Errore di lettura'}`,
+      totalRows: 0,
+      mergedRecords: currentRecords,
     };
   }
 }

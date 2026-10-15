@@ -348,13 +348,103 @@ export const HistoryList: React.FC<HistoryListProps> = ({
                       </div>
                     </div>
 
-                    {/* Pompa in Servizio & Drenaggio Tenuta d'Albero */}
+                    {/* Pompa in Servizio & Perdite */}
                     <div className="border-t border-slate-900 pt-2">
-                      <h5 className="font-bold text-sky-400 mb-1">Pompa in Servizio & Drenaggio Tenuta d'Albero</h5>
+                      <h5 className="font-bold text-sky-400 mb-1">Pompa in Servizio & Perdite</h5>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <div>Pompa: <span className="text-white font-semibold">{d.pompa_in_servizio || '-'}</span></div>
+                        <div>Pompa in servizio: <span className="text-white font-semibold">{d.pompa_in_servizio || '-'}</span></div>
                         <div>Perdita pompa: <span className="text-white font-semibold">{d.pompa_perdita_olio || '-'}</span></div>
-                        <div>Tempo pompa 1 drenaggio: <span className="text-sky-300 font-mono font-bold">{d.tempo_pompa_1_drenaggio_tenuta_albero || '-'}</span></div>
+                        <div>Perdite servomotori: <span className="text-white font-semibold">{d.perdite_servomotori || '-'}</span></div>
+                      </div>
+                    </div>
+
+                    {/* Drenaggio Tenuta d'Albero (3 Pompe: P1 AC, P2 AC, P3 DC) */}
+                    <div className="border-t border-slate-900 pt-2">
+                      <h5 className="font-bold text-sky-400 mb-1 flex items-center gap-2">
+                        <span>Drenaggio Tenuta d'Albero</span>
+                        <span className="text-[10px] text-slate-400 font-normal">(secondi)</span>
+                      </h5>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                        <div className="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+                          <span className="font-bold text-sky-300 block mb-0.5">Pompa 1 AC:</span>
+                          <div>Arresto: <span className="text-white font-mono font-semibold">{d.drenaggio_p1_ac_arresto_s !== null && d.drenaggio_p1_ac_arresto_s !== undefined ? `${d.drenaggio_p1_ac_arresto_s} s` : '-'}</span></div>
+                          <div>Funzionamento: <span className="text-white font-mono font-semibold">{d.drenaggio_p1_ac_funzionamento_s !== null && d.drenaggio_p1_ac_funzionamento_s !== undefined ? `${d.drenaggio_p1_ac_funzionamento_s} s` : '-'}</span></div>
+                        </div>
+
+                        <div className="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+                          <span className="font-bold text-sky-300 block mb-0.5">Pompa 2 AC:</span>
+                          <div>Arresto: <span className="text-white font-mono font-semibold">{d.drenaggio_p2_ac_arresto_s !== null && d.drenaggio_p2_ac_arresto_s !== undefined ? `${d.drenaggio_p2_ac_arresto_s} s` : '-'}</span></div>
+                          <div>Funzionamento: <span className="text-white font-mono font-semibold">{d.drenaggio_p2_ac_funzionamento_s !== null && d.drenaggio_p2_ac_funzionamento_s !== undefined ? `${d.drenaggio_p2_ac_funzionamento_s} s` : '-'}</span></div>
+                        </div>
+
+                        <div className="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+                          <span className="font-bold text-amber-300 block mb-0.5">Pompa 3 DC:</span>
+                          <div>Arresto: <span className="text-white font-mono font-semibold">{d.drenaggio_p3_dc_arresto_s !== null && d.drenaggio_p3_dc_arresto_s !== undefined ? `${d.drenaggio_p3_dc_arresto_s} s` : '-'}</span></div>
+                          <div>Funzionamento: <span className="text-white font-mono font-semibold">{d.drenaggio_p3_dc_funzionamento_s !== null && d.drenaggio_p3_dc_funzionamento_s !== undefined ? `${d.drenaggio_p3_dc_funzionamento_s} s` : '-'}</span></div>
+                        </div>
+                      </div>
+                      {d.tempo_pompa_1_drenaggio_tenuta_albero && (
+                        <div className="mt-1 text-[11px] text-slate-400">
+                          Tempo P1 storico registrato: <span className="text-slate-200 font-mono">{d.tempo_pompa_1_drenaggio_tenuta_albero}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 10. Irrorazione Tenuta */}
+                    <div className="border-t border-slate-900 pt-2">
+                      <h5 className="font-bold text-sky-400 mb-1 flex items-center gap-2">
+                        <span>10. Irrorazione Tenuta</span>
+                      </h5>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        <div className="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+                          <span className="text-slate-400 block mb-0.5">Pressione irrorazione:</span>
+                          <span className="text-white font-mono font-semibold">
+                            {d.pressione_irrorazione_tenuta_bar !== null && d.pressione_irrorazione_tenuta_bar !== undefined
+                              ? `${d.pressione_irrorazione_tenuta_bar} bar`
+                              : '-'}
+                          </span>
+                        </div>
+                        <div className="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+                          <span className="text-slate-400 block mb-0.5">Portata irrorazione:</span>
+                          <span className="text-white font-mono font-semibold">
+                            {d.portata_irrorazione_tenuta_l_min !== null && d.portata_irrorazione_tenuta_l_min !== undefined
+                              ? `${d.portata_irrorazione_tenuta_l_min} l/min`
+                              : '-'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 11. Delta Pressione Gruppo Servovalvole */}
+                    <div className="border-t border-slate-900 pt-2">
+                      <h5 className="font-bold text-sky-400 mb-1 flex items-center justify-between">
+                        <span>11. Delta Pressione Gruppo Servovalvole</span>
+                        {d.delta_p_monte_bar !== null &&
+                          d.delta_p_monte_bar !== undefined &&
+                          d.delta_p_valle_bar !== null &&
+                          d.delta_p_valle_bar !== undefined && (
+                            <span className="text-[11px] font-mono text-emerald-400 font-bold bg-slate-900 px-2 py-0.5 rounded border border-emerald-800">
+                              ΔP: {(d.delta_p_monte_bar - d.delta_p_valle_bar).toFixed(2)} bar
+                            </span>
+                          )}
+                      </h5>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        <div className="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+                          <span className="text-slate-400 block mb-0.5">Pressione di monte:</span>
+                          <span className="text-white font-mono font-semibold">
+                            {d.delta_p_monte_bar !== null && d.delta_p_monte_bar !== undefined
+                              ? `${d.delta_p_monte_bar} bar`
+                              : '-'}
+                          </span>
+                        </div>
+                        <div className="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
+                          <span className="text-slate-400 block mb-0.5">Pressione di valle:</span>
+                          <span className="text-white font-mono font-semibold">
+                            {d.delta_p_valle_bar !== null && d.delta_p_valle_bar !== undefined
+                              ? `${d.delta_p_valle_bar} bar`
+                              : '-'}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>

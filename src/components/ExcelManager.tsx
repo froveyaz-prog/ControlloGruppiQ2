@@ -12,7 +12,7 @@ import {
   Upload,
 } from 'lucide-react';
 import { RilevazioneRecord } from '../types';
-import { saveOrUpdateExcel, createWorkbookFromRecords } from '../utils/excel';
+import { saveOrUpdateExcel, createWorkbookFromRecords, mergeAndDownloadExcelFile } from '../utils/excel';
 import {
   saveExcelLinkToIDB,
   clearExcelLinkFromIDB,
@@ -47,8 +47,52 @@ export const ExcelManager: React.FC<ExcelManagerProps> = ({
 
   const jsonFileInputRef = useRef<HTMLInputElement>(null);
   const excelUploadInputRef = useRef<HTMLInputElement>(null);
+  const excelMergeInputRef = useRef<HTMLInputElement>(null);
 
   const hasFileSystemAccess = typeof window !== 'undefined' && 'showOpenFilePicker' in window;
+
+  // Aggiorna file Excel esistente per smartphone / browser (Carica, unisci & scarica)
+  const handleMergeExcelFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsProcessing(true);
+      setStatusMessage({
+        type: 'info',
+        text: `Lettura e unione del file "${file.name}" in corso...`,
+      });
+
+      const currentAll = loadRilevazioni();
+      const result = await mergeAndDownloadExcelFile(file, currentAll);
+
+      if (result.success) {
+        // Aggiorna anche la memoria locale e lo stato dell'app con tutte le righe storiche
+        saveRilevazioni(result.mergedRecords);
+        onRecordsChanged(result.mergedRecords);
+
+        setStatusMessage({
+          type: 'success',
+          text: result.message,
+        });
+      } else {
+        setStatusMessage({
+          type: 'error',
+          text: result.message,
+        });
+      }
+    } catch (err: any) {
+      setStatusMessage({
+        type: 'error',
+        text: `Errore durante l'aggiornamento del file: ${err.message}`,
+      });
+    } finally {
+      setIsProcessing(false);
+      if (excelMergeInputRef.current) {
+        excelMergeInputRef.current.value = '';
+      }
+    }
+  };
 
   // Collega un file Excel esistente tramite File System Access API
   const handleConnectFile = async () => {
@@ -440,6 +484,46 @@ export const ExcelManager: React.FC<ExcelManagerProps> = ({
             <FolderOpen className="w-4 h-4 text-sky-400" />
             <span>Collega File Esistente</span>
           </button>
+        </div>
+
+        {/* OPZIONE SMARTPHONE: Aggiorna un file Excel esistente senza sovrascrivere */}
+        <div className="bg-sky-950/40 border border-sky-800/80 rounded-xl p-4 space-y-3">
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-sky-900 border border-sky-700 flex items-center justify-center text-sky-300 shrink-0 mt-0.5">
+              <RefreshCw className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-white flex items-center gap-2 flex-wrap">
+                Aggiorna Excel Esistente su Smartphone
+                <span className="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-700/80 px-2 py-0.5 rounded-full font-semibold">
+                  Zero perdite di dati
+                </span>
+              </h4>
+              <p className="text-xs text-slate-300 mt-1">
+                Hai già un file Excel sul telefono con i dati dei giorni o mesi passati? Tocca il pulsante qui sotto e selezionalo:
+                l'app <strong>non cancella i dati già esportati</strong>, ma unisce le nuove rilevazioni alle righe storiche e ti fa scaricare subito il file aggiornato con tutto lo storico intatto.
+              </p>
+            </div>
+          </div>
+
+          <div className="pt-1">
+            <button
+              type="button"
+              onClick={() => excelMergeInputRef.current?.click()}
+              disabled={isProcessing}
+              className="w-full sm:w-auto py-3 px-4 rounded-xl font-bold text-xs sm:text-sm bg-sky-600 hover:bg-sky-500 text-white flex items-center justify-center gap-2 shadow-md shadow-sky-950/50 transition-all cursor-pointer active:scale-95"
+            >
+              <Upload className="w-4 h-4 shrink-0" />
+              <span>Seleziona File Excel da Aggiornare & Scarica</span>
+            </button>
+            <input
+              ref={excelMergeInputRef}
+              type="file"
+              accept=".xlsx, .xls"
+              onChange={handleMergeExcelFile}
+              className="hidden"
+            />
+          </div>
         </div>
 
         {/* Opzioni Aggiuntive: Salva con nome & Download diretto */}

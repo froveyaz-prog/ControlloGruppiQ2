@@ -9,7 +9,10 @@ export type CategoryId =
   | 'sod'
   | 'pompa_servizio'
   | 'perdite_servomotori'
-  | 'tempo_pompa_drenaggio';
+  | 'drenaggio_tenuta_albero'
+  | 'tempo_pompa_drenaggio'
+  | 'irrorazione_tenuta'
+  | 'delta_pressione_servovalvole';
 
 export interface CategoryInfo {
   id: CategoryId;
@@ -26,7 +29,21 @@ export const CATEGORIES: CategoryInfo[] = [
   { id: 'sod', label: '6. SOD', shortDesc: 'Olio, livelli e pressione' },
   { id: 'pompa_servizio', label: '7. Pompa in servizio', shortDesc: 'Pompa 1/2 e perdita olio' },
   { id: 'perdite_servomotori', label: '8. Perdite Servomotori', shortDesc: 'Verifica presenza perdite' },
-  { id: 'tempo_pompa_drenaggio', label: "9. Tempo pompa 1 drenaggio tenuta d'albero", shortDesc: 'Tempo funzionamento drenaggio' },
+  {
+    id: 'drenaggio_tenuta_albero',
+    label: "9. Drenaggio tenuta d'albero",
+    shortDesc: 'Pompa 1 AC, Pompa 2 AC, Pompa 3 DC (secondi)',
+  },
+  {
+    id: 'irrorazione_tenuta',
+    label: '10. Irrorazione tenuta',
+    shortDesc: 'Pressione (bar) e portata (l/min)',
+  },
+  {
+    id: 'delta_pressione_servovalvole',
+    label: '11. Delta pressione gruppo servovalvole',
+    shortDesc: 'Pressione di monte e valle (bar)',
+  },
 ];
 
 export interface RilevazioneDati {
@@ -67,8 +84,24 @@ export interface RilevazioneDati {
   // Perdite Servomotori
   perdite_servomotori?: 'Sì' | 'No' | null;
 
-  // Tempo pompa 1 drenaggio tenuta d'albero
+  // 9. Drenaggio tenuta d'albero (Pompa 1 AC, Pompa 2 AC, Pompa 3 DC - tempi in secondi)
+  drenaggio_p1_ac_arresto_s?: number | null;
+  drenaggio_p1_ac_funzionamento_s?: number | null;
+  drenaggio_p2_ac_arresto_s?: number | null;
+  drenaggio_p2_ac_funzionamento_s?: number | null;
+  drenaggio_p3_dc_arresto_s?: number | null;
+  drenaggio_p3_dc_funzionamento_s?: number | null;
+
+  // Retrocompatibilità
   tempo_pompa_1_drenaggio_tenuta_albero?: number | string | null;
+
+  // 10. Irrorazione tenuta (pressione in bar, portata in litri/minuto)
+  pressione_irrorazione_tenuta_bar?: number | null;
+  portata_irrorazione_tenuta_l_min?: number | null;
+
+  // 11. Delta pressione gruppo servovalvole (pressione monte e valle in bar)
+  delta_p_monte_bar?: number | null;
+  delta_p_valle_bar?: number | null;
 
   // Note opzionali
   note?: string;

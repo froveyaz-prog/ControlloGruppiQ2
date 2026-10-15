@@ -763,31 +763,351 @@ export const DataEntryForm: React.FC<DataEntryFormProps> = ({
             </div>
           )}
 
-          {/* Categoria 9: Tempo pompa 1 drenaggio tenuta d'albero */}
-          {selectedCategory === 'tempo_pompa_drenaggio' && (
+          {/* Categoria 9: Drenaggio tenuta d'albero */}
+          {(selectedCategory === 'drenaggio_tenuta_albero' || selectedCategory === 'tempo_pompa_drenaggio') && (
             <div className="space-y-4">
               <div>
-                <h3 className="text-sm font-bold text-white mb-1">
-                  Tempo Pompa 1 Drenaggio Tenuta d'Albero ({selectedGruppo})
+                <h3 className="text-sm font-bold text-white mb-1 flex items-center gap-2">
+                  <span>9. Drenaggio tenuta d'albero</span>
+                  <span className="text-xs font-normal text-sky-400">({selectedGruppo})</span>
                 </h3>
-                <p className="text-xs text-slate-400 mb-3">
-                  Registra il tempo di funzionamento o ciclo della pompa 1 di drenaggio tenuta d'albero per il {selectedGruppo}.
+                <p className="text-xs text-slate-400 mb-4">
+                  Rileva i tempi di arresto e funzionamento (in secondi) per le 3 pompe di drenaggio tenuta d'albero del {selectedGruppo}.
                 </p>
+              </div>
 
-                <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">
-                    Tempo rilevato (es. secondi, minuti o contaore):
-                  </label>
-                  <div className="relative max-w-sm">
-                    <input
-                      type="text"
-                      placeholder="Es. 30 s oppure 2.5 min"
-                      value={bozza.tempo_pompa_1_drenaggio_tenuta_albero ?? ''}
-                      onChange={(e) => updateBozzaField('tempo_pompa_1_drenaggio_tenuta_albero', e.target.value)}
-                      className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none"
-                    />
+              {/* Pompa 1 AC */}
+              <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-3.5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">Pompa 1</span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-950 border border-sky-800 text-sky-300">
+                      AC
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-slate-400">Pompa alternata</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">
+                      Tempo di Arresto
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        step="any"
+                        placeholder="es. 180"
+                        value={bozza.drenaggio_p1_ac_arresto_s ?? ''}
+                        onChange={(e) =>
+                          updateBozzaField(
+                            'drenaggio_p1_ac_arresto_s',
+                            e.target.value === '' ? null : parseFloat(e.target.value)
+                          )
+                        }
+                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-10"
+                      />
+                      <span className="absolute right-3 top-2.5 text-xs text-slate-400 font-bold">s</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">
+                      Tempo di Funzionamento
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        step="any"
+                        placeholder="es. 25"
+                        value={bozza.drenaggio_p1_ac_funzionamento_s ?? ''}
+                        onChange={(e) =>
+                          updateBozzaField(
+                            'drenaggio_p1_ac_funzionamento_s',
+                            e.target.value === '' ? null : parseFloat(e.target.value)
+                          )
+                        }
+                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-10"
+                      />
+                      <span className="absolute right-3 top-2.5 text-xs text-slate-400 font-bold">s</span>
+                    </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Pompa 2 AC */}
+              <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-3.5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">Pompa 2</span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-950 border border-sky-800 text-sky-300">
+                      AC
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-slate-400">Pompa alternata</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">
+                      Tempo di Arresto
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        step="any"
+                        placeholder="es. 180"
+                        value={bozza.drenaggio_p2_ac_arresto_s ?? ''}
+                        onChange={(e) =>
+                          updateBozzaField(
+                            'drenaggio_p2_ac_arresto_s',
+                            e.target.value === '' ? null : parseFloat(e.target.value)
+                          )
+                        }
+                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-10"
+                      />
+                      <span className="absolute right-3 top-2.5 text-xs text-slate-400 font-bold">s</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">
+                      Tempo di Funzionamento
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        step="any"
+                        placeholder="es. 25"
+                        value={bozza.drenaggio_p2_ac_funzionamento_s ?? ''}
+                        onChange={(e) =>
+                          updateBozzaField(
+                            'drenaggio_p2_ac_funzionamento_s',
+                            e.target.value === '' ? null : parseFloat(e.target.value)
+                          )
+                        }
+                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-10"
+                      />
+                      <span className="absolute right-3 top-2.5 text-xs text-slate-400 font-bold">s</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Pompa 3 DC */}
+              <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-3.5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">Pompa 3</span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-950 border border-amber-800 text-amber-300">
+                      DC
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-slate-400">Pompa continua / riserva</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">
+                      Tempo di Arresto
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        step="any"
+                        placeholder="es. 240"
+                        value={bozza.drenaggio_p3_dc_arresto_s ?? ''}
+                        onChange={(e) =>
+                          updateBozzaField(
+                            'drenaggio_p3_dc_arresto_s',
+                            e.target.value === '' ? null : parseFloat(e.target.value)
+                          )
+                        }
+                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-10"
+                      />
+                      <span className="absolute right-3 top-2.5 text-xs text-slate-400 font-bold">s</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">
+                      Tempo di Funzionamento
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        step="any"
+                        placeholder="es. 30"
+                        value={bozza.drenaggio_p3_dc_funzionamento_s ?? ''}
+                        onChange={(e) =>
+                          updateBozzaField(
+                            'drenaggio_p3_dc_funzionamento_s',
+                            e.target.value === '' ? null : parseFloat(e.target.value)
+                          )
+                        }
+                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-10"
+                      />
+                      <span className="absolute right-3 top-2.5 text-xs text-slate-400 font-bold">s</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Categoria 10: Irrorazione tenuta */}
+          {selectedCategory === 'irrorazione_tenuta' && (
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-bold text-white mb-1 flex items-center gap-2">
+                  <span>10. Irrorazione tenuta</span>
+                  <span className="text-xs font-normal text-sky-400">({selectedGruppo})</span>
+                </h3>
+                <p className="text-xs text-slate-400 mb-4">
+                  Rileva la pressione (in bar) e la portata (in litri/minuto) del circuito di irrorazione della tenuta per il {selectedGruppo}.
+                </p>
+              </div>
+
+              <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-4 space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Pressione irrorazione tenuta */}
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">
+                      Pressione irrorazione tenuta
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        step="any"
+                        placeholder="es. 4.5"
+                        value={bozza.pressione_irrorazione_tenuta_bar ?? ''}
+                        onChange={(e) =>
+                          updateBozzaField(
+                            'pressione_irrorazione_tenuta_bar',
+                            e.target.value === '' ? null : parseFloat(e.target.value)
+                          )
+                        }
+                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-12"
+                      />
+                      <span className="absolute right-3 top-2.5 text-xs text-sky-400 font-bold">bar</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 mt-1">Unità di misura: bar</p>
+                  </div>
+
+                  {/* Portata irrorazione tenuta */}
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">
+                      Portata irrorazione tenuta
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        step="any"
+                        placeholder="es. 12"
+                        value={bozza.portata_irrorazione_tenuta_l_min ?? ''}
+                        onChange={(e) =>
+                          updateBozzaField(
+                            'portata_irrorazione_tenuta_l_min',
+                            e.target.value === '' ? null : parseFloat(e.target.value)
+                          )
+                        }
+                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-16"
+                      />
+                      <span className="absolute right-3 top-2.5 text-xs text-sky-400 font-bold">l/min</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 mt-1">Unità di misura: litri al minuto (l/min)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Categoria 11: Delta pressione gruppo servovalvole */}
+          {selectedCategory === 'delta_pressione_servovalvole' && (
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-bold text-white mb-1 flex items-center gap-2">
+                  <span>11. Delta pressione gruppo servovalvole</span>
+                  <span className="text-xs font-normal text-sky-400">({selectedGruppo})</span>
+                </h3>
+                <p className="text-xs text-slate-400 mb-4">
+                  Rileva la pressione di monte e la pressione di valle (in bar) del gruppo servovalvole per il {selectedGruppo}.
+                </p>
+              </div>
+
+              <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-4 space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Pressione di monte */}
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">
+                      Pressione di monte
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        step="any"
+                        placeholder="es. 120"
+                        value={bozza.delta_p_monte_bar ?? ''}
+                        onChange={(e) =>
+                          updateBozzaField(
+                            'delta_p_monte_bar',
+                            e.target.value === '' ? null : parseFloat(e.target.value)
+                          )
+                        }
+                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-12"
+                      />
+                      <span className="absolute right-3 top-2.5 text-xs text-sky-400 font-bold">bar</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 mt-1">Unità di misura: bar</p>
+                  </div>
+
+                  {/* Pressione di valle */}
+                  <div>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">
+                      Pressione di valle
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        step="any"
+                        placeholder="es. 115"
+                        value={bozza.delta_p_valle_bar ?? ''}
+                        onChange={(e) =>
+                          updateBozzaField(
+                            'delta_p_valle_bar',
+                            e.target.value === '' ? null : parseFloat(e.target.value)
+                          )
+                        }
+                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-12"
+                      />
+                      <span className="absolute right-3 top-2.5 text-xs text-sky-400 font-bold">bar</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 mt-1">Unità di misura: bar</p>
+                  </div>
+                </div>
+
+                {/* Calcolo automatico Delta P differenziale */}
+                {bozza.delta_p_monte_bar !== undefined &&
+                  bozza.delta_p_monte_bar !== null &&
+                  bozza.delta_p_valle_bar !== undefined &&
+                  bozza.delta_p_valle_bar !== null && (
+                    <div className="bg-sky-950/60 border border-sky-800/70 rounded-xl p-3 flex items-center justify-between text-xs">
+                      <span className="text-sky-300 font-medium">Differenziale calcolato (ΔP = Monte - Valle):</span>
+                      <span className="text-white font-mono font-bold text-sm bg-slate-900 px-3 py-1 rounded-lg border border-sky-700">
+                        {(bozza.delta_p_monte_bar - bozza.delta_p_valle_bar).toFixed(2)} bar
+                      </span>
+                    </div>
+                  )}
               </div>
             </div>
           )}
@@ -888,11 +1208,68 @@ export const DataEntryForm: React.FC<DataEntryFormProps> = ({
                 </span>
               </div>
             )}
+            {(bozza.drenaggio_p1_ac_arresto_s !== undefined ||
+              bozza.drenaggio_p1_ac_funzionamento_s !== undefined ||
+              bozza.drenaggio_p2_ac_arresto_s !== undefined ||
+              bozza.drenaggio_p2_ac_funzionamento_s !== undefined ||
+              bozza.drenaggio_p3_dc_arresto_s !== undefined ||
+              bozza.drenaggio_p3_dc_funzionamento_s !== undefined) && (
+              <div className="flex flex-col gap-1 border-b border-slate-900 pb-1">
+                <span className="text-slate-400">Drenaggio tenuta d'albero:</span>
+                <div className="flex flex-wrap gap-1.5 text-[11px] font-mono text-sky-300">
+                  {(bozza.drenaggio_p1_ac_arresto_s !== null || bozza.drenaggio_p1_ac_funzionamento_s !== null) && (
+                    <span className="bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                      P1 AC: Arr. {bozza.drenaggio_p1_ac_arresto_s ?? '-'}s | Funz. {bozza.drenaggio_p1_ac_funzionamento_s ?? '-'}s
+                    </span>
+                  )}
+                  {(bozza.drenaggio_p2_ac_arresto_s !== null || bozza.drenaggio_p2_ac_funzionamento_s !== null) && (
+                    <span className="bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                      P2 AC: Arr. {bozza.drenaggio_p2_ac_arresto_s ?? '-'}s | Funz. {bozza.drenaggio_p2_ac_funzionamento_s ?? '-'}s
+                    </span>
+                  )}
+                  {(bozza.drenaggio_p3_dc_arresto_s !== null || bozza.drenaggio_p3_dc_funzionamento_s !== null) && (
+                    <span className="bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                      P3 DC: Arr. {bozza.drenaggio_p3_dc_arresto_s ?? '-'}s | Funz. {bozza.drenaggio_p3_dc_funzionamento_s ?? '-'}s
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
             {bozza.tempo_pompa_1_drenaggio_tenuta_albero !== undefined && bozza.tempo_pompa_1_drenaggio_tenuta_albero !== null && bozza.tempo_pompa_1_drenaggio_tenuta_albero !== '' && (
               <div className="flex justify-between">
-                <span className="text-slate-400">Tempo Pompa 1 Drenaggio:</span>
+                <span className="text-slate-400">Tempo Pompa 1 (Storico):</span>
                 <span className="font-semibold text-sky-300 font-mono">
                   {bozza.tempo_pompa_1_drenaggio_tenuta_albero}
+                </span>
+              </div>
+            )}
+            {((bozza.pressione_irrorazione_tenuta_bar !== undefined && bozza.pressione_irrorazione_tenuta_bar !== null) ||
+              (bozza.portata_irrorazione_tenuta_l_min !== undefined && bozza.portata_irrorazione_tenuta_l_min !== null)) && (
+              <div className="flex justify-between border-t border-slate-900 pt-1">
+                <span className="text-slate-400">Irrorazione tenuta:</span>
+                <span className="font-semibold text-sky-300 font-mono">
+                  P: {bozza.pressione_irrorazione_tenuta_bar !== null && bozza.pressione_irrorazione_tenuta_bar !== undefined ? `${bozza.pressione_irrorazione_tenuta_bar} bar` : '-'}
+                  {' • '}
+                  Q: {bozza.portata_irrorazione_tenuta_l_min !== null && bozza.portata_irrorazione_tenuta_l_min !== undefined ? `${bozza.portata_irrorazione_tenuta_l_min} l/min` : '-'}
+                </span>
+              </div>
+            )}
+            {((bozza.delta_p_monte_bar !== undefined && bozza.delta_p_monte_bar !== null) ||
+              (bozza.delta_p_valle_bar !== undefined && bozza.delta_p_valle_bar !== null)) && (
+              <div className="flex justify-between border-t border-slate-900 pt-1">
+                <span className="text-slate-400">Delta P servovalvole:</span>
+                <span className="font-semibold text-sky-300 font-mono">
+                  Monte: {bozza.delta_p_monte_bar !== null && bozza.delta_p_monte_bar !== undefined ? `${bozza.delta_p_monte_bar} bar` : '-'}
+                  {' • '}
+                  Valle: {bozza.delta_p_valle_bar !== null && bozza.delta_p_valle_bar !== undefined ? `${bozza.delta_p_valle_bar} bar` : '-'}
+                  {bozza.delta_p_monte_bar !== null &&
+                    bozza.delta_p_monte_bar !== undefined &&
+                    bozza.delta_p_valle_bar !== null &&
+                    bozza.delta_p_valle_bar !== undefined && (
+                      <span className="text-emerald-400 ml-1">
+                        (ΔP: {(bozza.delta_p_monte_bar - bozza.delta_p_valle_bar).toFixed(2)} bar)
+                      </span>
+                    )}
                 </span>
               </div>
             )}
