@@ -1111,6 +1111,107 @@ export const DataEntryForm: React.FC<DataEntryFormProps> = ({
               </div>
             </div>
           )}
+
+          {/* Categoria 12: Temperature statore */}
+          {selectedCategory === 'temperature_statore' && (
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-bold text-white mb-1 flex items-center gap-2">
+                  <span>12. Temperature statore</span>
+                  <span className="text-xs font-normal text-sky-400">({selectedGruppo})</span>
+                </h3>
+                <p className="text-xs text-slate-400 mb-4">
+                  Rileva le temperature del rame (9 sonde) e del ferro (3 sonde) dello statore per il {selectedGruppo}. Unità di misura: °C.
+                </p>
+              </div>
+
+              {/* Sezione Temperatura Rame (9 valori) */}
+              <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-4 space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">Temperatura Rame</span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-950 border border-amber-800 text-amber-300">
+                      9 sonde
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-slate-400">Unità: °C</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => {
+                    const fieldKey = `statore_temp_rame_${num}` as keyof RilevazioneDati;
+                    return (
+                      <div key={`rame_${num}`}>
+                        <label className="block text-xs font-medium text-slate-300 mb-1">
+                          Rame {num}
+                        </label>
+                        <div className="relative">
+                          <input
+                            type="number"
+                            inputMode="decimal"
+                            step="any"
+                            placeholder="es. 65"
+                            value={(bozza[fieldKey] as number | null | undefined) ?? ''}
+                            onChange={(e) =>
+                              updateBozzaField(
+                                fieldKey,
+                                e.target.value === '' ? null : parseFloat(e.target.value)
+                              )
+                            }
+                            className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-10 text-sm"
+                          />
+                          <span className="absolute right-3 top-2 text-xs text-amber-400 font-bold">°C</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Sezione Temperatura Ferro (3 valori) */}
+              <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-4 space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">Temperatura Ferro</span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-950 border border-sky-800 text-sky-300">
+                      3 sonde
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-slate-400">Unità: °C</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[1, 2, 3].map((num) => {
+                    const fieldKey = `statore_temp_ferro_${num}` as keyof RilevazioneDati;
+                    return (
+                      <div key={`ferro_${num}`}>
+                        <label className="block text-xs font-medium text-slate-300 mb-1">
+                          Ferro {num}
+                        </label>
+                        <div className="relative">
+                          <input
+                            type="number"
+                            inputMode="decimal"
+                            step="any"
+                            placeholder="es. 55"
+                            value={(bozza[fieldKey] as number | null | undefined) ?? ''}
+                            onChange={(e) =>
+                              updateBozzaField(
+                                fieldKey,
+                                e.target.value === '' ? null : parseFloat(e.target.value)
+                              )
+                            }
+                            className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-10 text-sm"
+                          />
+                          <span className="absolute right-3 top-2 text-xs text-sky-400 font-bold">°C</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -1271,6 +1372,24 @@ export const DataEntryForm: React.FC<DataEntryFormProps> = ({
                       </span>
                     )}
                 </span>
+              </div>
+            )}
+            {([1, 2, 3, 4, 5, 6, 7, 8, 9].some((n) => (bozza as any)[`statore_temp_rame_${n}`] != null) ||
+              [1, 2, 3].some((n) => (bozza as any)[`statore_temp_ferro_${n}`] != null)) && (
+              <div className="flex flex-col gap-1 border-t border-slate-900 pt-1">
+                <span className="text-slate-400">Temperature Statore:</span>
+                <div className="flex flex-wrap gap-1 text-[11px] font-mono">
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].some((n) => (bozza as any)[`statore_temp_rame_${n}`] != null) && (
+                    <span className="bg-slate-900 px-2 py-0.5 rounded border border-amber-900/60 text-amber-300">
+                      Rame: {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (bozza as any)[`statore_temp_rame_${n}`] ?? '-').join('/')} °C
+                    </span>
+                  )}
+                  {[1, 2, 3].some((n) => (bozza as any)[`statore_temp_ferro_${n}`] != null) && (
+                    <span className="bg-slate-900 px-2 py-0.5 rounded border border-sky-900/60 text-sky-300">
+                      Ferro: {[1, 2, 3].map((n) => (bozza as any)[`statore_temp_ferro_${n}`] ?? '-').join('/')} °C
+                    </span>
+                  )}
+                </div>
               </div>
             )}
           </div>

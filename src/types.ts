@@ -12,7 +12,8 @@ export type CategoryId =
   | 'drenaggio_tenuta_albero'
   | 'tempo_pompa_drenaggio'
   | 'irrorazione_tenuta'
-  | 'delta_pressione_servovalvole';
+  | 'delta_pressione_servovalvole'
+  | 'temperature_statore';
 
 export interface CategoryInfo {
   id: CategoryId;
@@ -43,6 +44,11 @@ export const CATEGORIES: CategoryInfo[] = [
     id: 'delta_pressione_servovalvole',
     label: '11. Delta pressione gruppo servovalvole',
     shortDesc: 'Pressione di monte e valle (bar)',
+  },
+  {
+    id: 'temperature_statore',
+    label: '12. Temperature statore',
+    shortDesc: 'Rame (9 valori) e ferro (3 valori) in °C',
   },
 ];
 
@@ -102,6 +108,20 @@ export interface RilevazioneDati {
   // 11. Delta pressione gruppo servovalvole (pressione monte e valle in bar)
   delta_p_monte_bar?: number | null;
   delta_p_valle_bar?: number | null;
+
+  // 12. Temperature statore (Rame 1-9 e Ferro 1-3 in °C)
+  statore_temp_rame_1?: number | null;
+  statore_temp_rame_2?: number | null;
+  statore_temp_rame_3?: number | null;
+  statore_temp_rame_4?: number | null;
+  statore_temp_rame_5?: number | null;
+  statore_temp_rame_6?: number | null;
+  statore_temp_rame_7?: number | null;
+  statore_temp_rame_8?: number | null;
+  statore_temp_rame_9?: number | null;
+  statore_temp_ferro_1?: number | null;
+  statore_temp_ferro_2?: number | null;
+  statore_temp_ferro_3?: number | null;
 
   // Note opzionali
   note?: string;

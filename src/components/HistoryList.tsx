@@ -447,6 +447,50 @@ export const HistoryList: React.FC<HistoryListProps> = ({
                         </div>
                       </div>
                     </div>
+
+                    {/* 12. Temperature Statore */}
+                    <div className="border-t border-slate-900 pt-2 space-y-2">
+                      <h5 className="font-bold text-sky-400 mb-1 flex items-center justify-between">
+                        <span>12. Temperature Statore</span>
+                        <span className="text-[10px] text-slate-400 font-normal">°C</span>
+                      </h5>
+
+                      {/* Rame 1-9 */}
+                      <div className="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 space-y-1">
+                        <div className="flex items-center justify-between text-xs font-bold text-amber-300">
+                          <span>Temperatura Rame (9 sonde):</span>
+                        </div>
+                        <div className="grid grid-cols-3 sm:grid-cols-9 gap-1 text-[11px] font-mono">
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => {
+                            const val = (d as any)[`statore_temp_rame_${n}`];
+                            return (
+                              <div key={`hist_r_${n}`} className="bg-slate-950 p-1 rounded text-center border border-slate-800/80">
+                                <span className="text-slate-500 block text-[9px]">R{n}</span>
+                                <span className="text-white font-semibold">{val != null ? `${val}°` : '-'}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Ferro 1-3 */}
+                      <div className="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 space-y-1">
+                        <div className="flex items-center justify-between text-xs font-bold text-sky-300">
+                          <span>Temperatura Ferro (3 sonde):</span>
+                        </div>
+                        <div className="grid grid-cols-3 gap-2 text-[11px] font-mono">
+                          {[1, 2, 3].map((n) => {
+                            const val = (d as any)[`statore_temp_ferro_${n}`];
+                            return (
+                              <div key={`hist_f_${n}`} className="bg-slate-950 p-1.5 rounded text-center border border-slate-800/80">
+                                <span className="text-slate-500 block text-[10px]">Ferro {n}</span>
+                                <span className="text-white font-semibold">{val != null ? `${val} °C` : '-'}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
