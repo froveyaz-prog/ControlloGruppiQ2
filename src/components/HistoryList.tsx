@@ -491,6 +491,50 @@ export const HistoryList: React.FC<HistoryListProps> = ({
                         </div>
                       </div>
                     </div>
+
+                    {/* 13. Temperatura Aria Zona Statore */}
+                    <div className="border-t border-slate-900 pt-2 space-y-2">
+                      <h5 className="font-bold text-sky-400 mb-1 flex items-center justify-between">
+                        <span>13. Temperatura Aria Zona Statore</span>
+                        <span className="text-[10px] text-slate-400 font-normal">°C</span>
+                      </h5>
+
+                      {/* Esterne 1-4 */}
+                      <div className="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 space-y-1">
+                        <div className="flex items-center justify-between text-xs font-bold text-amber-300">
+                          <span>Temperature Esterne (4 misure):</span>
+                        </div>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] font-mono">
+                          {[1, 2, 3, 4].map((n) => {
+                            const val = (d as any)[`statore_aria_esterna_${n}`];
+                            return (
+                              <div key={`hist_ae_${n}`} className="bg-slate-950 p-1.5 rounded text-center border border-slate-800/80">
+                                <span className="text-slate-500 block text-[10px]">Esterna {n}</span>
+                                <span className="text-white font-semibold">{val != null ? `${val} °C` : '-'}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Interne 1-4 */}
+                      <div className="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 space-y-1">
+                        <div className="flex items-center justify-between text-xs font-bold text-sky-300">
+                          <span>Temperature Interne (4 misure):</span>
+                        </div>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] font-mono">
+                          {[1, 2, 3, 4].map((n) => {
+                            const val = (d as any)[`statore_aria_interna_${n}`];
+                            return (
+                              <div key={`hist_ai_${n}`} className="bg-slate-950 p-1.5 rounded text-center border border-slate-800/80">
+                                <span className="text-slate-500 block text-[10px]">Interna {n}</span>
+                                <span className="text-white font-semibold">{val != null ? `${val} °C` : '-'}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

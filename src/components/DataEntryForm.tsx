@@ -1212,6 +1212,107 @@ export const DataEntryForm: React.FC<DataEntryFormProps> = ({
               </div>
             </div>
           )}
+
+          {/* Categoria 13: Temperatura aria zona statore */}
+          {selectedCategory === 'temperatura_aria_statore' && (
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-bold text-white mb-1 flex items-center gap-2">
+                  <span>13. Temperatura aria zona statore</span>
+                  <span className="text-xs font-normal text-sky-400">({selectedGruppo})</span>
+                </h3>
+                <p className="text-xs text-slate-400 mb-4">
+                  Rileva le temperature dell'aria nella zona statore: 4 misure esterne e 4 misure interne per il {selectedGruppo}. Unità di misura: °C.
+                </p>
+              </div>
+
+              {/* Sezione Temperature Esterne (4 misure) */}
+              <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-4 space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">Temperature Esterne</span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-950 border border-amber-800 text-amber-300">
+                      4 misure
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-slate-400">Unità: °C</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {[1, 2, 3, 4].map((num) => {
+                    const fieldKey = `statore_aria_esterna_${num}` as keyof RilevazioneDati;
+                    return (
+                      <div key={`aria_est_${num}`}>
+                        <label className="block text-xs font-medium text-slate-300 mb-1">
+                          Temperatura esterna {num}
+                        </label>
+                        <div className="relative">
+                          <input
+                            type="number"
+                            inputMode="decimal"
+                            step="any"
+                            placeholder="es. 28.5"
+                            value={(bozza[fieldKey] as number | null | undefined) ?? ''}
+                            onChange={(e) =>
+                              updateBozzaField(
+                                fieldKey,
+                                e.target.value === '' ? null : parseFloat(e.target.value)
+                              )
+                            }
+                            className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-10 text-sm"
+                          />
+                          <span className="absolute right-3 top-2 text-xs text-amber-400 font-bold">°C</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Sezione Temperature Interne (4 misure) */}
+              <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-4 space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">Temperature Interne</span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-950 border border-sky-800 text-sky-300">
+                      4 misure
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-slate-400">Unità: °C</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {[1, 2, 3, 4].map((num) => {
+                    const fieldKey = `statore_aria_interna_${num}` as keyof RilevazioneDati;
+                    return (
+                      <div key={`aria_int_${num}`}>
+                        <label className="block text-xs font-medium text-slate-300 mb-1">
+                          Temperatura interna {num}
+                        </label>
+                        <div className="relative">
+                          <input
+                            type="number"
+                            inputMode="decimal"
+                            step="any"
+                            placeholder="es. 35.0"
+                            value={(bozza[fieldKey] as number | null | undefined) ?? ''}
+                            onChange={(e) =>
+                              updateBozzaField(
+                                fieldKey,
+                                e.target.value === '' ? null : parseFloat(e.target.value)
+                              )
+                            }
+                            className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:ring-2 focus:ring-sky-500 outline-none pr-10 text-sm"
+                          />
+                          <span className="absolute right-3 top-2 text-xs text-sky-400 font-bold">°C</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -1387,6 +1488,24 @@ export const DataEntryForm: React.FC<DataEntryFormProps> = ({
                   {[1, 2, 3].some((n) => (bozza as any)[`statore_temp_ferro_${n}`] != null) && (
                     <span className="bg-slate-900 px-2 py-0.5 rounded border border-sky-900/60 text-sky-300">
                       Ferro: {[1, 2, 3].map((n) => (bozza as any)[`statore_temp_ferro_${n}`] ?? '-').join('/')} °C
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+            {([1, 2, 3, 4].some((n) => (bozza as any)[`statore_aria_esterna_${n}`] != null) ||
+              [1, 2, 3, 4].some((n) => (bozza as any)[`statore_aria_interna_${n}`] != null)) && (
+              <div className="flex flex-col gap-1 border-t border-slate-900 pt-1">
+                <span className="text-slate-400">Temperatura Aria Zona Statore:</span>
+                <div className="flex flex-wrap gap-1 text-[11px] font-mono">
+                  {[1, 2, 3, 4].some((n) => (bozza as any)[`statore_aria_esterna_${n}`] != null) && (
+                    <span className="bg-slate-900 px-2 py-0.5 rounded border border-amber-900/60 text-amber-300">
+                      Esterne: {[1, 2, 3, 4].map((n) => (bozza as any)[`statore_aria_esterna_${n}`] ?? '-').join('/')} °C
+                    </span>
+                  )}
+                  {[1, 2, 3, 4].some((n) => (bozza as any)[`statore_aria_interna_${n}`] != null) && (
+                    <span className="bg-slate-900 px-2 py-0.5 rounded border border-sky-900/60 text-sky-300">
+                      Interne: {[1, 2, 3, 4].map((n) => (bozza as any)[`statore_aria_interna_${n}`] ?? '-').join('/')} °C
                     </span>
                   )}
                 </div>

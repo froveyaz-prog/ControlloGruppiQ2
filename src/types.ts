@@ -13,7 +13,8 @@ export type CategoryId =
   | 'tempo_pompa_drenaggio'
   | 'irrorazione_tenuta'
   | 'delta_pressione_servovalvole'
-  | 'temperature_statore';
+  | 'temperature_statore'
+  | 'temperatura_aria_statore';
 
 export interface CategoryInfo {
   id: CategoryId;
@@ -49,6 +50,11 @@ export const CATEGORIES: CategoryInfo[] = [
     id: 'temperature_statore',
     label: '12. Temperature statore',
     shortDesc: 'Rame (9 valori) e ferro (3 valori) in °C',
+  },
+  {
+    id: 'temperatura_aria_statore',
+    label: '13. Temperatura aria zona statore',
+    shortDesc: 'Esterne (4 valori) e interne (4 valori) in °C',
   },
 ];
 
@@ -122,6 +128,16 @@ export interface RilevazioneDati {
   statore_temp_ferro_1?: number | null;
   statore_temp_ferro_2?: number | null;
   statore_temp_ferro_3?: number | null;
+
+  // 13. Temperatura aria zona statore (Esterne 1-4 e Interne 1-4 in °C)
+  statore_aria_esterna_1?: number | null;
+  statore_aria_esterna_2?: number | null;
+  statore_aria_esterna_3?: number | null;
+  statore_aria_esterna_4?: number | null;
+  statore_aria_interna_1?: number | null;
+  statore_aria_interna_2?: number | null;
+  statore_aria_interna_3?: number | null;
+  statore_aria_interna_4?: number | null;
 
   // Note opzionali
   note?: string;

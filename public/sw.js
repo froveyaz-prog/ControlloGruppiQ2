@@ -1,4 +1,4 @@
-const CACHE_NAME = 'quincinetto2-pwa-v1.2.0';
+const CACHE_NAME = 'quincinetto2-pwa-v1.3.0';
 
 const PRECACHE_ASSETS = [
   './',
