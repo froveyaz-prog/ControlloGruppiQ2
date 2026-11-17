@@ -535,6 +535,28 @@ export const HistoryList: React.FC<HistoryListProps> = ({
                         </div>
                       </div>
                     </div>
+
+                    {/* 14. Temperatura Trasformatore Eccitatrice */}
+                    <div className="border-t border-slate-900 pt-2 space-y-2">
+                      <h5 className="font-bold text-sky-400 mb-1 flex items-center justify-between">
+                        <span>14. Temperatura Trasformatore Eccitatrice</span>
+                        <span className="text-[10px] text-slate-400 font-normal">°C</span>
+                      </h5>
+
+                      <div className="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] font-mono">
+                          {[1, 2, 3, 4].map((n) => {
+                            const val = (d as any)[`trasf_eccitatrice_ch${n}`];
+                            return (
+                              <div key={`hist_ch_${n}`} className="bg-slate-950 p-1.5 rounded text-center border border-slate-800/80">
+                                <span className="text-slate-500 block text-[10px]">CH{n}</span>
+                                <span className="text-white font-semibold">{val != null ? `${val} °C` : '-'}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

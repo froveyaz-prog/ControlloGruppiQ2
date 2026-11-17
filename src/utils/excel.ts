@@ -61,6 +61,10 @@ export const EXCEL_COLUMNS = [
   'Aria Statore Interna 2 (°C)',
   'Aria Statore Interna 3 (°C)',
   'Aria Statore Interna 4 (°C)',
+  'Trasf. Eccitatrice CH1 (°C)',
+  'Trasf. Eccitatrice CH2 (°C)',
+  'Trasf. Eccitatrice CH3 (°C)',
+  'Trasf. Eccitatrice CH4 (°C)',
   'Note',
 ];
 
@@ -174,6 +178,19 @@ const HEADER_ALIASES: Record<string, string> = {
   'interna 2': 'Aria Statore Interna 2 (°C)',
   'interna 3': 'Aria Statore Interna 3 (°C)',
   'interna 4': 'Aria Statore Interna 4 (°C)',
+  // Sinonimi temperatura trasformatore eccitatrice (CH1-CH4)
+  'ch1': 'Trasf. Eccitatrice CH1 (°C)',
+  'ch2': 'Trasf. Eccitatrice CH2 (°C)',
+  'ch3': 'Trasf. Eccitatrice CH3 (°C)',
+  'ch4': 'Trasf. Eccitatrice CH4 (°C)',
+  'trasf. eccitatrice ch1': 'Trasf. Eccitatrice CH1 (°C)',
+  'trasf. eccitatrice ch2': 'Trasf. Eccitatrice CH2 (°C)',
+  'trasf. eccitatrice ch3': 'Trasf. Eccitatrice CH3 (°C)',
+  'trasf. eccitatrice ch4': 'Trasf. Eccitatrice CH4 (°C)',
+  'trasformatore eccitatrice ch1': 'Trasf. Eccitatrice CH1 (°C)',
+  'trasformatore eccitatrice ch2': 'Trasf. Eccitatrice CH2 (°C)',
+  'trasformatore eccitatrice ch3': 'Trasf. Eccitatrice CH3 (°C)',
+  'trasformatore eccitatrice ch4': 'Trasf. Eccitatrice CH4 (°C)',
 };
 
 export function normalizeHeader(h: string): string {
@@ -254,6 +271,10 @@ export function recordToExcelRow(r: RilevazioneRecord): Record<string, any> {
     'Aria Statore Interna 2 (°C)': d.statore_aria_interna_2 ?? '',
     'Aria Statore Interna 3 (°C)': d.statore_aria_interna_3 ?? '',
     'Aria Statore Interna 4 (°C)': d.statore_aria_interna_4 ?? '',
+    'Trasf. Eccitatrice CH1 (°C)': d.trasf_eccitatrice_ch1 ?? '',
+    'Trasf. Eccitatrice CH2 (°C)': d.trasf_eccitatrice_ch2 ?? '',
+    'Trasf. Eccitatrice CH3 (°C)': d.trasf_eccitatrice_ch3 ?? '',
+    'Trasf. Eccitatrice CH4 (°C)': d.trasf_eccitatrice_ch4 ?? '',
     'Note': d.note ?? '',
   };
 }
@@ -546,6 +567,10 @@ export function excelRowsToRecords(
         statore_aria_interna_2: numOrNull(row['Aria Statore Interna 2 (°C)']),
         statore_aria_interna_3: numOrNull(row['Aria Statore Interna 3 (°C)']),
         statore_aria_interna_4: numOrNull(row['Aria Statore Interna 4 (°C)']),
+        trasf_eccitatrice_ch1: numOrNull(row['Trasf. Eccitatrice CH1 (°C)']),
+        trasf_eccitatrice_ch2: numOrNull(row['Trasf. Eccitatrice CH2 (°C)']),
+        trasf_eccitatrice_ch3: numOrNull(row['Trasf. Eccitatrice CH3 (°C)']),
+        trasf_eccitatrice_ch4: numOrNull(row['Trasf. Eccitatrice CH4 (°C)']),
         note: strOrNull(row['Note']) || undefined,
       },
     });

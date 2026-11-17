@@ -14,7 +14,8 @@ export type CategoryId =
   | 'irrorazione_tenuta'
   | 'delta_pressione_servovalvole'
   | 'temperature_statore'
-  | 'temperatura_aria_statore';
+  | 'temperatura_aria_statore'
+  | 'temperatura_trasformatore_eccitatrice';
 
 export interface CategoryInfo {
   id: CategoryId;
@@ -55,6 +56,11 @@ export const CATEGORIES: CategoryInfo[] = [
     id: 'temperatura_aria_statore',
     label: '13. Temperatura aria zona statore',
     shortDesc: 'Esterne (4 valori) e interne (4 valori) in °C',
+  },
+  {
+    id: 'temperatura_trasformatore_eccitatrice',
+    label: '14. Temperatura trasformatore eccitatrice',
+    shortDesc: 'CH1, CH2, CH3, CH4 in °C',
   },
 ];
 
@@ -138,6 +144,12 @@ export interface RilevazioneDati {
   statore_aria_interna_2?: number | null;
   statore_aria_interna_3?: number | null;
   statore_aria_interna_4?: number | null;
+
+  // 14. Temperatura trasformatore eccitatrice (CH1-CH4 in °C)
+  trasf_eccitatrice_ch1?: number | null;
+  trasf_eccitatrice_ch2?: number | null;
+  trasf_eccitatrice_ch3?: number | null;
+  trasf_eccitatrice_ch4?: number | null;
 
   // Note opzionali
   note?: string;
