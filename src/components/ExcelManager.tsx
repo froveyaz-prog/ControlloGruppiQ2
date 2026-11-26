@@ -13,12 +13,12 @@ import {
 } from 'lucide-react';
 import { RilevazioneRecord } from '../types';
 import { saveOrUpdateExcel, createWorkbookFromRecords, mergeAndDownloadExcelFile } from '../utils/excel';
+import { recordsToCleanBackup, parseBackupJsonToRecords } from '../utils/backup';
 import {
   saveExcelLinkToIDB,
   clearExcelLinkFromIDB,
   loadRilevazioni,
   saveRilevazioni,
-  LOCAL_STORAGE_KEY,
 } from '../utils/storage';
 import * as XLSX from 'xlsx';
 
@@ -288,18 +288,21 @@ export const ExcelManager: React.FC<ExcelManagerProps> = ({
     }
   };
 
-  // Esporta Backup JSON (richiesto da specifica per trasferire dati tra dispositivi)
+  // Esporta Backup JSON leggibile con i soli dati funzionali (voce, valore, operatore, data)
   const handleExportJSON = () => {
     try {
       const allRecords = loadRilevazioni();
-      const exportData = {
-        app: 'Controlli sistematici centrale di Quincinetto 2',
-        versione: '1.0.0',
-        exportDate: new Date().toISOString(),
-        totalRecords: allRecords.length,
-        records: allRecords,
-      };
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+      const cleanBackup = recordsToCleanBackup(allRecords);
+
+      if (cleanBackup.length === 0) {
+        setStatusMessage({
+          type: 'info',
+          text: 'Nessun dato di controllo da esportare nel backup JSON.',
+        });
+        return;
+      }
+
+      const blob = new Blob([JSON.stringify(cleanBackup, null, 2)], {
         type: 'application/json',
       });
       const url = URL.createObjectURL(blob);
@@ -310,7 +313,7 @@ export const ExcelManager: React.FC<ExcelManagerProps> = ({
       URL.revokeObjectURL(url);
       setStatusMessage({
         type: 'success',
-        text: 'Backup JSON scaricato con successo. Puoi usarlo per ripristinare i dati locali su un altro dispositivo o browser.',
+        text: `Backup JSON leggibile scaricato (${cleanBackup.length} valori esportati con voce, valore, operatore e data).`,
       });
     } catch (err: any) {
       setStatusMessage({
@@ -320,7 +323,7 @@ export const ExcelManager: React.FC<ExcelManagerProps> = ({
     }
   };
 
-  // Ripristina Backup JSON
+  // Ripristina Backup JSON (supporta sia il formato leggibile sia il vecchio formato)
   const handleImportJSON = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -330,19 +333,7 @@ export const ExcelManager: React.FC<ExcelManagerProps> = ({
       try {
         const content = event.target?.result as string;
         const parsed = JSON.parse(content);
-        let recordsToImport: RilevazioneRecord[] = [];
-
-        if (Array.isArray(parsed)) {
-          recordsToImport = parsed;
-        } else if (parsed && Array.isArray(parsed.records)) {
-          recordsToImport = parsed.records;
-        } else {
-          throw new Error('Formato file non riconosciuto. Il file deve contenere un array di rilevazioni.');
-        }
-
-        if (recordsToImport.length === 0) {
-          throw new Error('Nessuna registrazione trovata nel file JSON.');
-        }
+        const recordsToImport = parseBackupJsonToRecords(parsed);
 
         if (
           window.confirm(
@@ -564,7 +555,7 @@ export const ExcelManager: React.FC<ExcelManagerProps> = ({
             Backup & Ripristino Dati Locali (JSON)
           </h3>
           <p className="text-xs text-slate-400 mt-0.5">
-            Utile per trasferire l'elenco locale delle registrazioni tra browser o dispositivi diversi.
+            Salva solo i dati essenziali leggibili (voce di riferimento, valore, operatore e data) e consente il ripristino su altri dispositivi.
           </p>
         </div>
 
