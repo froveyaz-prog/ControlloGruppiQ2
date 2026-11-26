@@ -1370,6 +1370,40 @@ export const DataEntryForm: React.FC<DataEntryFormProps> = ({
               </div>
             </div>
           )}
+
+          {/* Categoria 15: Annotazioni */}
+          {selectedCategory === 'annotazioni' && (
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-bold text-white mb-1 flex items-center gap-2">
+                  <span>15. Annotazioni</span>
+                  <span className="text-xs font-normal text-sky-400">({selectedGruppo})</span>
+                </h3>
+                <p className="text-xs text-slate-400 mb-4">
+                  Inserisci eventuali commenti, osservazioni, anomalie o annotazioni relative al controllo del {selectedGruppo}.
+                </p>
+              </div>
+
+              <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-4 space-y-2">
+                <div className="flex items-center justify-between">
+                  <label htmlFor="annotazioni-textarea" className="block text-xs font-medium text-slate-300">
+                    Commenti o annotazioni
+                  </label>
+                  <span className="text-[11px] text-slate-500">
+                    {(bozza.note || '').length} caratteri
+                  </span>
+                </div>
+                <textarea
+                  id="annotazioni-textarea"
+                  rows={5}
+                  placeholder="Scrivi qui eventuali commenti, anomalie riscontrate o note operative..."
+                  value={bozza.note ?? ''}
+                  onChange={(e) => updateBozzaField('note', e.target.value)}
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 text-sm focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none resize-y min-h-[120px]"
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -1577,6 +1611,14 @@ export const DataEntryForm: React.FC<DataEntryFormProps> = ({
                     .join(' • ')}{' '}
                   °C
                 </span>
+              </div>
+            )}
+            {bozza.note && bozza.note.trim() !== '' && (
+              <div className="flex flex-col gap-1 border-t border-slate-900 pt-1">
+                <span className="text-slate-400">Annotazioni:</span>
+                <p className="text-slate-200 whitespace-pre-wrap bg-slate-900 px-2.5 py-1.5 rounded border border-slate-800">
+                  {bozza.note}
+                </p>
               </div>
             )}
           </div>

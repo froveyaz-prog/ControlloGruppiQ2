@@ -557,6 +557,18 @@ export const HistoryList: React.FC<HistoryListProps> = ({
                         </div>
                       </div>
                     </div>
+
+                    {/* 15. Annotazioni */}
+                    <div className="border-t border-slate-900 pt-2 space-y-1.5">
+                      <h5 className="font-bold text-sky-400">15. Annotazioni</h5>
+                      <div className="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 text-xs">
+                        {d.note && d.note.trim() !== '' ? (
+                          <p className="text-slate-100 whitespace-pre-wrap leading-relaxed">{d.note}</p>
+                        ) : (
+                          <span className="text-slate-500 italic">Nessuna annotazione inserita</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

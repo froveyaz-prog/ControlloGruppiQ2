@@ -65,7 +65,7 @@ export const EXCEL_COLUMNS = [
   'Trasf. Eccitatrice CH2 (°C)',
   'Trasf. Eccitatrice CH3 (°C)',
   'Trasf. Eccitatrice CH4 (°C)',
-  'Note',
+  'Annotazioni',
 ];
 
 /**
@@ -191,6 +191,10 @@ const HEADER_ALIASES: Record<string, string> = {
   'trasformatore eccitatrice ch2': 'Trasf. Eccitatrice CH2 (°C)',
   'trasformatore eccitatrice ch3': 'Trasf. Eccitatrice CH3 (°C)',
   'trasformatore eccitatrice ch4': 'Trasf. Eccitatrice CH4 (°C)',
+  // Sinonimi annotazioni / note
+  'note': 'Annotazioni',
+  'commenti': 'Annotazioni',
+  'annotazioni': 'Annotazioni',
 };
 
 export function normalizeHeader(h: string): string {
@@ -275,7 +279,7 @@ export function recordToExcelRow(r: RilevazioneRecord): Record<string, any> {
     'Trasf. Eccitatrice CH2 (°C)': d.trasf_eccitatrice_ch2 ?? '',
     'Trasf. Eccitatrice CH3 (°C)': d.trasf_eccitatrice_ch3 ?? '',
     'Trasf. Eccitatrice CH4 (°C)': d.trasf_eccitatrice_ch4 ?? '',
-    'Note': d.note ?? '',
+    'Annotazioni': d.note ?? '',
   };
 }
 
@@ -571,7 +575,7 @@ export function excelRowsToRecords(
         trasf_eccitatrice_ch2: numOrNull(row['Trasf. Eccitatrice CH2 (°C)']),
         trasf_eccitatrice_ch3: numOrNull(row['Trasf. Eccitatrice CH3 (°C)']),
         trasf_eccitatrice_ch4: numOrNull(row['Trasf. Eccitatrice CH4 (°C)']),
-        note: strOrNull(row['Note']) || undefined,
+        note: strOrNull(row['Annotazioni']) || undefined,
       },
     });
   }

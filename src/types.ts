@@ -15,7 +15,8 @@ export type CategoryId =
   | 'delta_pressione_servovalvole'
   | 'temperature_statore'
   | 'temperatura_aria_statore'
-  | 'temperatura_trasformatore_eccitatrice';
+  | 'temperatura_trasformatore_eccitatrice'
+  | 'annotazioni';
 
 export interface CategoryInfo {
   id: CategoryId;
@@ -61,6 +62,11 @@ export const CATEGORIES: CategoryInfo[] = [
     id: 'temperatura_trasformatore_eccitatrice',
     label: '14. Temperatura trasformatore eccitatrice',
     shortDesc: 'CH1, CH2, CH3, CH4 in °C',
+  },
+  {
+    id: 'annotazioni',
+    label: '15. Annotazioni',
+    shortDesc: 'Commenti o note libere',
   },
 ];
 
@@ -151,8 +157,8 @@ export interface RilevazioneDati {
   trasf_eccitatrice_ch3?: number | null;
   trasf_eccitatrice_ch4?: number | null;
 
-  // Note opzionali
-  note?: string;
+  // 15. Annotazioni / Note opzionali
+  note?: string | null;
 }
 
 export interface RilevazioneRecord {
